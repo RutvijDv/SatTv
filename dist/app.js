@@ -34,6 +34,48 @@ var utils = __importStar(require("./Functions/databaseInitiator"));
 var cors_1 = __importDefault(require("cors"));
 var index_1 = __importDefault(require("./routes/index"));
 var app = express_1.default();
+var debug = require("debug")("sattv:server");
+/**
+ * Get port from environment and store in Express.
+ */
+var port = normalizePort(process.env.PORT || "3000");
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+    return false;
+}
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+    if (error.syscall !== "listen") {
+        throw error;
+    }
+    var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case "EACCES":
+            console.error(bind + " requires elevated privileges");
+            process.exit(1);
+            break;
+        case "EADDRINUSE":
+            console.error(bind + " is already in use");
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
 mongoose_1.default.connect(database_1.Config.database, {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -68,5 +110,12 @@ app.use(function (err, req, res) {
     // render the error page
     res.status(err.status || 500);
     res.render("error");
+});
+app.on("error", onError);
+/**
+ * Event listener for Express app "listening" event.
+ */
+app.listen(port, function () {
+    console.log("Database Initialized");
 });
 exports.default = app;

@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var passport_1 = __importDefault(require("passport"));
+var passport_2 = __importDefault(require("../config/passport"));
 var getToken_1 = require("../Functions/getToken");
 var express_1 = require("express");
 var index_1 = require("../models/index");
+passport_2.default(passport_1.default);
 var option1Router = express_1.Router();
 option1Router.get("/balance", passport_1.default.authenticate("jwt", { session: false }), function (req, res) {
     var token = getToken_1.getToken(req.headers);

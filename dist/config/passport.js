@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authenticateUser = void 0;
 var passport_jwt_1 = require("passport-jwt");
 var jwtStrategy = passport_jwt_1.Strategy;
 var extractJwt = passport_jwt_1.ExtractJwt;
@@ -26,4 +25,4 @@ var authenticateUser = function (passport) {
         });
     }));
 };
-exports.authenticateUser = authenticateUser;
+exports.default = authenticateUser;
