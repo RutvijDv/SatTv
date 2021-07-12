@@ -31,4 +31,4 @@ const authenticateUser = function (passport: PassportStatic) {
   );
 };
 
-export { authenticateUser }
+export default authenticateUser;

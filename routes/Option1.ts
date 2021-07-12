@@ -1,7 +1,10 @@
-import passport from "passport";
+import passport, { Strategy } from "passport";
 import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User } from "../models/index";
+
+import authenticateUser from "../config/passport";
+authenticateUser(passport);
 
 const option1Router = Router();
 

@@ -4,6 +4,9 @@ import { Router } from "express";
 
 import {BasePack, Channels, Services } from "../models/index";
 
+import authenticateUser from "../config/passport";
+authenticateUser(passport);
+
 const option3Router = Router();
 
 

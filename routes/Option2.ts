@@ -3,6 +3,9 @@ import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User } from "../models/index";
 
+import authenticateUser from "../config/passport";
+authenticateUser(passport);
+
 const option2Router = Router();
 
 /*
