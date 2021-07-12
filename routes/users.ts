@@ -1,13 +1,9 @@
-var mongoose = require("mongoose");
-var passport = require("passport");
-var config = require("../config/database");
-require("../config/passport")(passport);
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var router = express.Router();
-var getToken = require("../Functions/getToken");
+import { Router } from "express";
+import { User } from "../models/index";
+import { Config } from "../config/database";
+import jwt from "jsonwebtoken";
 
-const { User, BasePack, Channels, Services } = require("../models/index");
+const router = Router();
 
 /*
 
@@ -17,17 +13,17 @@ Body-Content:
 
 */
 
-router.post("/signup", function (req, res) {
+router.post("/signup", function (req:any, res:any) {
   if (!req.body.username || !req.body.password) {
     res.json({ success: false, msg: "Please pass username and password." });
   } else {
-    var newUser = new User({
+    let newUser = new User({
       username: req.body.username,
       password: req.body.password,
       balance: 100,
     });
     // save the user
-    newUser.save(function (err) {
+    newUser.save(function (err:Error) {
       if (err) {
         return res.json({ success: false, msg: "Username already exists." });
       }
@@ -41,7 +37,7 @@ router.post("/login", function (req, res) {
     {
       username: req.body.username,
     },
-    function (err, user) {
+    function (err:Error, user:any) {
       if (err) throw err;
 
       if (!user) {
@@ -51,10 +47,10 @@ router.post("/login", function (req, res) {
         });
       } else {
         // check if password matches
-        user.comparePassword(req.body.password, function (err, isMatch) {
+        user.comparePassword(req.body.password, function (err:Error, isMatch:any) {
           if (isMatch && !err) {
             // if user is found and password is right create a token
-            var token = jwt.sign(user.toJSON(), config.secret);
+            const token = jwt.sign(user.toJSON(), Config.secret);
             // return the information including token as JSON
             res.json({ success: true, token: "JWT " + token });
           } else {

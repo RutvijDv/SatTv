@@ -1,13 +1,9 @@
-var mongoose = require("mongoose");
-var passport = require("passport");
-var config = require("../config/database");
-require("../config/passport")(passport);
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var router = express.Router();
-var getToken = require("../Functions/getToken");
+import passport from "passport";
+import { getToken } from "../Functions/getToken";
+import { Router } from "express";
+import { User } from "../models/index";
 
-const { User, BasePack, Channels, Services } = require("../models/index");
+const router = Router();
 
 /*
 Header-Content:
@@ -17,14 +13,14 @@ Header-Content:
 router.get(
   "/details",
   passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    var token = getToken(req.headers);
+  function (req:any, res:any) {
+    const token = getToken(req.headers);
     if (token) {
       User.findOne(
         {
           username: req.user.username,
         },
-        function (err, user) {
+        function (err:Error, user:any) {
           if (err) throw err;
 
           if (!user) {
@@ -33,7 +29,7 @@ router.get(
               msg: "Authentication failed. User not found.",
             });
           } else {
-            var output = {};
+            let output:any = {}
 
             output.subscriptions = user.basepack;
             output.channelsAdded = user.channels;
@@ -49,4 +45,4 @@ router.get(
   }
 );
 
-module.exports = router;
+export { router };

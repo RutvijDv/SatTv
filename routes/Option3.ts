@@ -1,13 +1,11 @@
-var mongoose = require("mongoose");
-var passport = require("passport");
-var config = require("../config/database");
-require("../config/passport")(passport);
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var router = express.Router();
-var getToken = require("../Functions/getToken");
+import passport from "passport";
+import { getToken } from "../Functions/getToken";
+import { Router } from "express";
 
-const { User, BasePack, Channels, Services } = require("../models/index");
+import {BasePack, Channels, Services } from "../models/index";
+
+const router = Router();
+
 
 /*
 Header-Content:
@@ -17,20 +15,20 @@ Header-Content:
 router.get(
   "/packsAndChannels",
   passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    var token = getToken(req.headers);
-    var output = {};
+  function (req: any, res: any) {
+    const token = getToken(req.headers);
+    let output = {}  as any;
 
     if (token) {
-      BasePack.find({}, function (err, Packs) {
+      BasePack.find({}, function (err: Error,Packs:any) {
         if (err) throw err;
         output.packs = Packs;
 
-        Channels.find({}, function (err, Packs) {
+        Channels.find({}, function (err: Error,Packs:any) {
           if (err) throw err;
           output.channels = Packs;
 
-          Services.find({}, function (err, Packs) {
+          Services.find({}, function (err: Error,Packs:any) {
             if (err) throw err;
             output.services = Packs;
 
@@ -44,4 +42,4 @@ router.get(
   }
 );
 
-module.exports = router;
+export { router };

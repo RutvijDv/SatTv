@@ -1,13 +1,10 @@
-var mongoose = require("mongoose");
-var passport = require("passport");
-var config = require("../config/database");
-require("../config/passport")(passport);
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var router = express.Router();
-var getToken = require("../Functions/getToken");
+import passport from "passport";
+import { getToken } from "../Functions/getToken";
+import { Router } from "express";
+import { User } from "../models/index";
 
-const { User, BasePack, Channels, Services } = require("../models/index");
+const router = Router();
+
 
 /*
 Header-Content:
@@ -21,17 +18,17 @@ Body-Content:
 router.post(
   "/updateDetails",
   passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    var token = getToken(req.headers);
+  function (req:any, res:any) {
+    const token = getToken(req.headers);
     if (token) {
-      var email = req.body.email;
-      var phone = req.body.phone;
+      let email = req.body.email;
+      let phone = req.body.phone;
 
       User.findOne(
         {
           username: req.user.username,
         },
-        function (err, user) {
+        function (err:Error, user:any) {
           if (err) throw err;
 
           if (!user) {
@@ -43,7 +40,7 @@ router.post(
             if (phone) user.phone = phone;
             if (email) user.email = email;
 
-            user.save(function (err) {
+            user.save(function (err:Error) {
               if (err) throw err;
               else res.send("Email and Phone updated successfully");
             });
@@ -56,4 +53,5 @@ router.post(
   }
 );
 
-module.exports = router;
+export { router };
+

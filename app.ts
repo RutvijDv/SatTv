@@ -1,12 +1,11 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var mongoose = require("mongoose");
-var passport = require("passport");
+import express from "express";
+import path from "path";
+import mongoose from "mongoose";
+import passport from "passport";
 import { Config } from "./config/database";
-import { User, BasePack, Channels, Services } from "./models/index";
+const createError  = require("http-errors");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const utils = require("./Functions/databaseInitiator");
 const cors = require("cors");
 
@@ -46,7 +45,7 @@ app.use(function (req: any, res: any, next: any) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err:any, req:any, res:any) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
@@ -56,4 +55,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-module.exports = app;
+export = { app }

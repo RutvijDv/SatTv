@@ -1,13 +1,10 @@
-var mongoose = require("mongoose");
-var passport = require("passport");
-var config = require("../config/database");
-require("../config/passport")(passport);
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var router = express.Router();
-var getToken = require("../Functions/getToken");
+import passport from "passport";
+import { getToken } from "../Functions/getToken";
+import { Router } from "express";
+import { User, Services } from "../models/index";
 
-const { User, BasePack, Channels, Services } = require("../models/index");
+const router = Router();
+
 
 /*
 Header-Content:
@@ -20,25 +17,26 @@ Body-Content:
 router.post(
   "/addServices",
   passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    var token = getToken(req.headers);
+  function (req: any, res: any) {
+    const token = getToken(req.headers);
     if (token) {
-      var type = req.body.service;
+      let type = req.body.service;
 
-      var output = {};
+      let output:any = {}
+      let amount : number;
 
       Services.findOne(
         {
           name: type,
         },
-        function (err, service) {
+        function (err:Error, service:any) {
           if (err) throw err;
           if (!service) {
             res.send("No service found");
           } else {
             amount = service.price;
 
-            User.findOne({ username: req.user.username }, function (err, user) {
+            User.findOne({ username: req.user.username }, function (err:Error, user:any) {
               if (err) throw err;
 
               if (!user) {
@@ -56,7 +54,7 @@ router.post(
                   output.done = "Services Subscribed Successfully";
                   output.balance = user.balance;
 
-                  user.save(function (err) {
+                  user.save(function (err:Error) {
                     if (err) throw err;
                     else {
                       console.log("Email notification sent successfully");
@@ -76,4 +74,4 @@ router.post(
   }
 );
 
-module.exports = router;
+export { router };

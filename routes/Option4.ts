@@ -1,13 +1,9 @@
-var mongoose = require("mongoose");
-var passport = require("passport");
-var config = require("../config/database");
-require("../config/passport")(passport);
-var express = require("express");
-var jwt = require("jsonwebtoken");
-var router = express.Router();
-var getToken = require("../Functions/getToken");
+import passport from "passport";
+import { getToken } from "../Functions/getToken";
+import { Router } from "express";
+import { User, BasePack } from "../models/index";
 
-const { User, BasePack, Channels, Services } = require("../models/index");
+const router = Router();
 
 /*
 Header-Content:
@@ -21,24 +17,24 @@ Body-Content:
 router.post(
   "/subscribe",
   passport.authenticate("jwt", { session: false }),
-  function (req, res) {
-    var token = getToken(req.headers);
+  function (req: any, res: any) {
+    const token = getToken(req.headers);
     if (token) {
-      var type = req.body.type;
-      var months = Number(req.body.months);
+      let type = req.body.type;
+      let months = Number(req.body.months);
 
-      var discountPercentage = months >= 3 ? Number(10) : Number(0);
-      var discount;
-      var amount;
-      var finalAmount;
+      let discountPercentage = months >= 3 ? Number(10) : Number(0);
+      let discount : number;
+      let amount : number;
+      let finalAmount : number;
 
-      var output = {};
+      let output:any = {}
 
       BasePack.findOne(
         {
           type: type,
         },
-        function (err, pack) {
+        function (err:Error, pack:any) {
           if (err) throw err;
           if (!pack) {
             res.send("No packs found");
@@ -51,7 +47,7 @@ router.post(
               {
                 username: req.user.username,
               },
-              function (err, user) {
+              function (err:Error, user:any) {
                 if (err) throw err;
 
                 if (!user) {
@@ -73,7 +69,7 @@ router.post(
                     output.finalPrice = finalAmount;
                     output.balance = user.balance;
 
-                    user.save(function (err) {
+                    user.save(function (err:Error) {
                       if (err) throw err;
                       else {
                         console.log("Email notification sent successfully");
@@ -94,4 +90,4 @@ router.post(
   }
 );
 
-module.exports = router;
+export { router };
