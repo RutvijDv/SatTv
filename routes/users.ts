@@ -3,7 +3,7 @@ import { User } from "../models/index";
 import { Config } from "../config/database";
 import jwt from "jsonwebtoken";
 
-const router = Router();
+const userRouter = Router();
 
 /*
 
@@ -13,7 +13,7 @@ Body-Content:
 
 */
 
-router.post("/signup", function (req:any, res:any) {
+userRouter.post("/signup", function (req:any, res:any) {
   if (!req.body.username || !req.body.password) {
     res.json({ success: false, msg: "Please pass username and password." });
   } else {
@@ -32,7 +32,7 @@ router.post("/signup", function (req:any, res:any) {
   }
 });
 
-router.post("/login", function (req, res) {
+userRouter.post("/login", function (req, res) {
   User.findOne(
     {
       username: req.body.username,
@@ -65,4 +65,4 @@ router.post("/login", function (req, res) {
   );
 });
 
-module.exports = router;
+export default userRouter ;

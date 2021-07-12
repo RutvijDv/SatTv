@@ -3,7 +3,7 @@ import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User, Channels } from "../models/index";
 
-const router = Router();
+const option5Router = Router();
 
 /*
 Header-Content:
@@ -14,7 +14,7 @@ Body-Content:
   ex:-  Discovery,Nat Geo
 */
 
-router.post(
+option5Router.post(
   "/addChannels",
   passport.authenticate("jwt", { session: false }),
   function (req: any, res: any) {
@@ -77,4 +77,4 @@ router.post(
   }
 );
 
-export { router };
+export default option5Router;

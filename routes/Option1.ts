@@ -3,9 +3,9 @@ import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User } from "../models/index";
 
-const router = Router();
+const option1Router = Router();
 
-router.get(
+option1Router.get(
   "/balance",
   passport.authenticate("jwt", { session: false }),
   function (req: any, res: any) {
@@ -34,4 +34,4 @@ router.get(
   }
 );
 
-export { router };
+export default option1Router;

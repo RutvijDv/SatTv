@@ -3,14 +3,14 @@ import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User } from "../models/index";
 
-const router = Router();
+const option7Router = Router();
 
 /*
 Header-Content:
   Authorisation - token
 */
 
-router.get(
+option7Router.get(
   "/details",
   passport.authenticate("jwt", { session: false }),
   function (req:any, res:any) {
@@ -45,4 +45,4 @@ router.get(
   }
 );
 
-export { router };
+export default option7Router;

@@ -1,15 +1,16 @@
+import { Config } from "./config/database";
 import express from "express";
 import path from "path";
 import mongoose from "mongoose";
 import passport from "passport";
-import { Config } from "./config/database";
-const createError  = require("http-errors");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const utils = require("./Functions/databaseInitiator");
-const cors = require("cors");
+import createError  from "http-errors";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import * as utils from "./Functions/databaseInitiator";
+import cors from "cors";
+import router from "./routes/index";
 
-var app = express();
+const app = express();
 
 mongoose.connect(Config.database, {
   useCreateIndex: true,
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", require("./routes/index"));
+app.use("/", router);
 utils.packsDb();
 utils.channelsDb();
 utils.servicesDb();
@@ -55,4 +56,4 @@ app.use(function (err:any, req:any, res:any) {
   res.render("error");
 });
 
-export = { app }
+export  default app ;

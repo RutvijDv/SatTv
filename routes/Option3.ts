@@ -4,7 +4,7 @@ import { Router } from "express";
 
 import {BasePack, Channels, Services } from "../models/index";
 
-const router = Router();
+const option3Router = Router();
 
 
 /*
@@ -12,7 +12,7 @@ Header-Content:
   Authorisation - token
 */
 
-router.get(
+option3Router.get(
   "/packsAndChannels",
   passport.authenticate("jwt", { session: false }),
   function (req: any, res: any) {
@@ -42,4 +42,4 @@ router.get(
   }
 );
 
-export { router };
+export default option3Router;

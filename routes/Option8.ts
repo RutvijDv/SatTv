@@ -3,7 +3,7 @@ import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User } from "../models/index";
 
-const router = Router();
+const option8Router = Router();
 
 
 /*
@@ -15,7 +15,7 @@ Body-Content:
   phone
 */
 
-router.post(
+option8Router.post(
   "/updateDetails",
   passport.authenticate("jwt", { session: false }),
   function (req:any, res:any) {
@@ -53,5 +53,5 @@ router.post(
   }
 );
 
-export { router };
+export default option8Router;
 

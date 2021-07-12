@@ -1,4 +1,4 @@
-import { User, BasePack, Channels, Services } from "../models/index";
+import { BasePack, Channels, Services } from "../models/index";
 
 function packsDb(): void {
   const channelsGold: string[] = ["Zee", "Sony", "Star Plus", "Discovery", "NatGeo"];

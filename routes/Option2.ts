@@ -3,7 +3,7 @@ import { getToken } from "../Functions/getToken";
 import { Router } from "express";
 import { User } from "../models/index";
 
-const router = Router();
+const option2Router = Router();
 
 /*
 Header-Content:
@@ -13,7 +13,7 @@ Body-Content:
   recharge amount
 */
 
-router.post(
+option2Router.post(
   "/recharge",
   passport.authenticate("jwt", { session: false }),
   function (req: any, res: any) {
@@ -52,4 +52,4 @@ router.post(
   }
 );
 
-export { router };
+export default option2Router;
